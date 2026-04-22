@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# ona — SDLC clean-room agent
+# Wrapper that sets up AGENT_SDLC_DB and launches the agent
+set -euo pipefail
+
+SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+AGENT="$SCRIPT_DIR/agent.mjs"
+
+# Default DB location: ~/.ona/agent.db
+ONA_HOME="${ONAHOME:-${HOME}/.ona}"
+mkdir -p "$ONA_HOME"
+export AGENT_SDLC_DB="${AGENT_SDLC_DB:-${ONA_HOME}/agent.db}"
+
+exec node "$AGENT" "$@"
